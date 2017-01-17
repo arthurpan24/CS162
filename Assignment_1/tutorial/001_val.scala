@@ -23,6 +23,8 @@ val someInteger: Int = 7
 // Now let's put this to the test.  Using `val`, make the following
 // assertion run and hold:
 
+val x: Int = 3
+val y: Int = 4
 assert(x + y == 7)
 
 // `val` is how variables are introduced.  Yawn.  I get it.  But
@@ -44,7 +46,7 @@ val noAnnotation = 20 // type annotation, shmamotation
 // Try it out.  Replace `???` with something that will let the assertion
 // below work:
 
-val something = ???
+val something = 73
 assert(something == 73)
 
 // Now for a quick bit about `==`.  If you're used to Java, you're

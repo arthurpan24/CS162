@@ -84,6 +84,9 @@ trait Base {
 }
 
 // DEFINE MyTrait BELOW
+trait MyTrait extends Base {
+  def unknown(): Int = 9
+}
 
 class Working extends MyTrait {
   def result(): Int = known

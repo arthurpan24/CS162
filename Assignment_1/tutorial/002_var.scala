@@ -18,5 +18,5 @@ someInteger = 8
 // below hold:
 
 var assertMe: Int = 10
-// INSERT LINE HERE
+assertMe = 12
 assert(assertMe == 12)
