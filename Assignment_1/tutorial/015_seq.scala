@@ -128,7 +128,8 @@ assert(asStrings(List(1, 2, 3)) == List("1", "2", "3"))
 // list, where each element is the result of adding 1 to the element in
 // the other list
 
-def addOneToEach(ints: List[Int]): List[Int] = ???
+def addOneToEach(ints: List[Int]): List[Int] = 
+  if (ints.isEmpty) List() else (ints.head + 1) :: addOneToEach(ints.tail)
 
 assert(addOneToEach(List()) == List())
 assert(addOneToEach(List(1)) == List(2))
@@ -172,9 +173,9 @@ assert(List(2.5, 3.0, 4.2).map(_.floor) == List(2.0, 3.0, 4.0))
 // Try it yourself.  Fill in the `???` with code below to make the
 // assertions hold:
 
-assert(List(1, 2, 3).map(???) == List(6, 7, 8))
-assert(List(1, 2, 3).map(???) == List("1", "2", "3"))
-assert(List(Some(1), Some(2), Some(3)).map(???) == List(1, 2, 3))
+assert(List(1, 2, 3).map(_ + 5) == List(6, 7, 8))
+assert(List(1, 2, 3).map(_.toString) == List("1", "2", "3"))
+assert(List(Some(1), Some(2), Some(3)).map(_.getOrElse(3)) == List(1, 2, 3))
 
 // Overall, `map` often tends to be the most common operation used over
 // `Seq`, both for this class and beyond.  Whenever we have the general
