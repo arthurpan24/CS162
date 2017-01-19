@@ -413,7 +413,16 @@ def myMapUsingFlatMap[A, B](input: List[A], function: A => B): List[B] =
 //       depending on what the provided function returns for a given element, then
 //       it would behave just like `filter` would.
 def myFilterUsingFlatMap[A](input: List[A], function: A => Boolean): List[A] =
-  myFlatMap(input, (item: A) => ???)
+  myFlatMap(input, (item: A) => if (function(item)) List(item) else List())
+
+
+def myFilter[A](input: List[A], predicate: A => Boolean): List[A] =
+  input match {
+    case Nil => List()
+    case head :: tail if predicate(head) =>
+      head :: myFilter(tail, predicate)
+    case _ :: tail => myFilter(tail, predicate)
+  }
 
 assert((myMap(List(1, 2, 3), (i: Int) => i + 1) ==
         myMapUsingFlatMap(List(1, 2, 3), (i: Int) => i + 1)))
