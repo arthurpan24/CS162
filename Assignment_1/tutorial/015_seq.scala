@@ -247,7 +247,14 @@ assert(evens(List(2, 4, 6)) == List(2, 4, 6))
 // Implement this below, in order to allow the following assertions
 // to pass
 
-def lengthThree(input: List[String]): List[String] = ???
+def lengthThree(input: List[String]): List[String] = 
+  input match {
+    case Nil => List()
+
+    case head :: tail if head.length == 3 => head :: lengthThree(tail)
+
+    case _ :: tail => lengthThree(tail)
+  }
 
 assert(lengthThree(List("moo", "cow", "bull")) == List("moo", "cow"))
 assert(lengthThree(List("foo", "bar", "baz")) == List("foo", "bar", "baz"))
@@ -278,9 +285,9 @@ assert(List("moo", "cow", "bull").filter(_.length == 3) == List("moo", "cow"))
 // Try it yourself.  Replace the `???` below with code in order to make
 // the assertions pass:
 
-assert(List(1, 2, 3).filter(???) == List(1, 3))
-assert(List("apple", "asparagus", "bannana").filter(???) == List("apple", "asparagus"))
-assert(List(2, 5, 7, 9, 10).filter(???) == List(2, 5))
+assert(List(1, 2, 3).filter(_ % 2 == 1) == List(1, 3))
+assert(List("apple", "asparagus", "bannana").filter(_.charAt(0) == 'a') == List("apple", "asparagus"))
+assert(List(2, 5, 7, 9, 10).filter(_ <= 5) == List(2, 5))
 
 // `filter` is another very common operation, commonly used in a variety of situations.
 // `filter` abstracts over the following imperative-style pattern:
@@ -389,7 +396,7 @@ assert((myFlatMap(List(1, 2, 3), (i: Int) => List(i - 1, i, i + 1)) ==
 // Now try it yourself.  Fill in the `???` below to make the assertion pass.
 
 def allItemsPurchased2(customers: List[Customer]): List[Item] =
-  myFlatMap(customers, (c: Customer) => ???)
+  myFlatMap(customers, (c: Customer) => c.purchaseHistory)
 
 assert(allItemsPurchased(database) == allItemsPurchased2(database))
 
@@ -400,7 +407,7 @@ assert(allItemsPurchased(database) == allItemsPurchased2(database))
 // HINT: if `flatMap` were to always return only single-element lists, then it
 //       would behave just like `map` would.
 def myMapUsingFlatMap[A, B](input: List[A], function: A => B): List[B] =
-  myFlatMap(input, (item: A) => ???)
+  myFlatMap(input, (item: A) => List(function(item)))
 
 // HINT: if `flatMap` were to return either empty lists or single-element lists
 //       depending on what the provided function returns for a given element, then
