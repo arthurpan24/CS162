@@ -13,6 +13,10 @@ object Problem1 {
       // oof
       // rab
       // zab
+
+      for (elem <- args) {
+        println(elem.reverse)
+      }
     }
 }
 
