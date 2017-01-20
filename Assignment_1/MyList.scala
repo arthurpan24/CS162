@@ -164,7 +164,6 @@ case class MyCons[A](x: A, xs: MyList[A]) extends MyList[A] {
       } else {
           xs.filter(pred) 
       }
-    
 
   def append(other: MyList[A]): MyList[A] = 
   if (other.isEmpty) {
@@ -175,8 +174,7 @@ case class MyCons[A](x: A, xs: MyList[A]) extends MyList[A] {
           this.init.append(MyCons(this.last, other))
         }
       
-
-  def foldLeft[B](initial: B)(f: (B, A) => B): B = if (xs.isEmpty) f(initial, x) else f(xs.foldLeft(initial)(f), x)
+  def foldLeft[B](initial: B)(f: (B, A) => B): B = if (xs.isEmpty) f(initial, x) else xs.foldLeft(f(initial, x))(f)
 
   def foldRight[B](initial: B)(f: (A, B) => B): B = if (xs.isEmpty) f(x, initial) else f(x, xs.foldRight(initial)(f))
 
