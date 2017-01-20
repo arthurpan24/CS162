@@ -152,7 +152,7 @@ case class MyCons[A](x: A, xs: MyList[A]) extends MyList[A] {
   // Note: all the methods below are implicitly specialized for
   // non-empty lists, since these are defined on a Cons.
 
-  def map[B](f: A => B): MyList[B] = ???
+  def map[B](f: A => B): MyList[B] = MyList(f(x)).append(safeTail.get.map(f))
 
   def flatMap[B](f: A => MyList[B]): MyList[B] = ???
 
@@ -165,24 +165,25 @@ case class MyCons[A](x: A, xs: MyList[A]) extends MyList[A] {
   def foldRight[B](initial: B)(f: (A, B) => B): B = ???
 
   def take(n: Int): MyList[A] = ???
+  //if (n >= length) MyList(safeHead).append(safeTail) else MyList(x).append(take(n-1)) 
 
   def drop(n: Int): MyList[A] = ???
 
-  def head: A = ???
+  def head: A = x
 
-  def tail: MyList[A] = ???
+  def tail: MyList[A] = if (xs.isEmpty == true) throw new InvalidOperationException("empty tail") else xs
 
   def init: MyList[A] = ???
 
-  def last: A = ???
+  def last: A = if (xs.isEmpty == true) x else xs.tail.last
 
-  def safeHead: Option[A] = ???
+  def safeHead: Option[A] = Some(x)
 
-  def safeTail: Option[MyList[A]] = ???
+  def safeTail: Option[MyList[A]] = Some(xs)
 
-  def isEmpty: Boolean = ???
+  def isEmpty: Boolean = false
 
-  def length: Int = ???
+  def length: Int = if (xs.isEmpty == true) 1 else 1 + xs.length
 }
 
 // This is the empty list case, AKA Nil.
@@ -190,11 +191,11 @@ case class MyNil[A]() extends MyList[A] {
   // Note: all the methods below are implicitly specialized for
   // empty lists, since these are defined on Nil
 
-  def map[B](f: A => B): MyList[B] = ???
+  def map[B](f: A => B): MyList[B] = MyList()
 
-  def flatMap[B](f: A => MyList[B]): MyList[B] = ???
+  def flatMap[B](f: A => MyList[B]): MyList[B] = MyList()
 
-  def filter(pred: A => Boolean): MyList[A] = ???
+  def filter(pred: A => Boolean): MyList[A] = MyList()
 
   def append(other: MyList[A]): MyList[A] = ???
 
@@ -202,25 +203,25 @@ case class MyNil[A]() extends MyList[A] {
 
   def foldRight[B](initial: B)(f: (A, B) => B): B = ???
 
-  def take(n: Int): MyList[A] = ???
+  def take(n: Int): MyList[A] = MyList()
 
-  def drop(n: Int): MyList[A] = ???
+  def drop(n: Int): MyList[A] = MyList()
 
-  def head: A = ???
+  def head: A = throw new InvalidOperationException("head called on empty list")
 
-  def tail: MyList[A] = ???
+  def tail: MyList[A] = throw new InvalidOperationException("tail called on empty list")
 
-  def init: MyList[A] = ???
+  def init: MyList[A] = throw new InvalidOperationException("init called on empty list")
 
-  def last: A = ???
+  def last: A = throw new InvalidOperationException("last called on empty list")
 
-  def safeHead: Option[A] = ???
+  def safeHead: Option[A] = None
 
-  def safeTail: Option[MyList[A]] = ???
+  def safeTail: Option[MyList[A]] = None
 
-  def isEmpty: Boolean = ???
+  def isEmpty: Boolean = true
 
-  def length: Int = ???
+  def length: Int = 0
 }
 
 object Tester {
