@@ -152,30 +152,53 @@ case class MyCons[A](x: A, xs: MyList[A]) extends MyList[A] {
   // Note: all the methods below are implicitly specialized for
   // non-empty lists, since these are defined on a Cons.
 
-  def map[B](f: A => B): MyList[B] = MyList(f(x)).append(safeTail.get.map(f))
+  def map[B](f: A => B): MyList[B] = if (this.isEmpty) MyList() else MyCons(f(x), xs.map(f))
 
-  def flatMap[B](f: A => MyList[B]): MyList[B] = ???
+  def flatMap[B](f: A => MyList[B]): MyList[B] = if (this.isEmpty) MyList() else f(x).append(xs.flatMap(f))
 
-  def filter(pred: A => Boolean): MyList[A] = ???
+  def filter(pred: A => Boolean): MyList[A] = 
+  if (this.isEmpty) {
+    MyList()
+    } else if ((pred(x))) {
+        MyCons(x, xs.filter(pred))
+      } else {
+          xs.filter(pred) 
+      }
+    
 
-  def append(other: MyList[A]): MyList[A] = ???
+  def append(other: MyList[A]): MyList[A] = 
+  if (other.isEmpty) {
+    this
+    } else if (xs.isEmpty) {
+        MyCons(x, other)
+        } else {
+          this.init.append(MyCons(this.last, other))
+        }
+      
 
-  def foldLeft[B](initial: B)(f: (B, A) => B): B = ???
+  def foldLeft[B](initial: B)(f: (B, A) => B): B = if (xs.isEmpty) f(initial, x) else f(xs.foldLeft(initial)(f), x)
 
-  def foldRight[B](initial: B)(f: (A, B) => B): B = ???
+  def foldRight[B](initial: B)(f: (A, B) => B): B = if (xs.isEmpty) f(x, initial) else f(x, xs.foldRight(initial)(f))
 
-  def take(n: Int): MyList[A] = ???
-  //if (n >= length) MyList(safeHead).append(safeTail) else MyList(x).append(take(n-1)) 
+  def take(n: Int): MyList[A] = if (n == 0) MyList() else MyCons(x, xs.take(n-1))
 
-  def drop(n: Int): MyList[A] = ???
+  def drop(n: Int): MyList[A] = 
+  if (n >= this.length) {
+    MyList()
+    } else if (xs.isEmpty) {
+        this
+      } 
+      else {
+        xs.drop(n-1)
+      }
 
   def head: A = x
 
-  def tail: MyList[A] = if (xs.isEmpty == true) throw new InvalidOperationException("empty tail") else xs
+  def tail: MyList[A] = xs
 
-  def init: MyList[A] = ???
-
-  def last: A = if (xs.isEmpty == true) x else xs.tail.last
+  def init: MyList[A] = if (x == last) MyList() else this.take(length - 1)
+ 
+  def last: A = if (xs.isEmpty == true) x else xs.last
 
   def safeHead: Option[A] = Some(x)
 
@@ -197,11 +220,11 @@ case class MyNil[A]() extends MyList[A] {
 
   def filter(pred: A => Boolean): MyList[A] = MyList()
 
-  def append(other: MyList[A]): MyList[A] = ???
+  def append(other: MyList[A]): MyList[A] = other
 
-  def foldLeft[B](initial: B)(f: (B, A) => B): B = ???
+  def foldLeft[B](initial: B)(f: (B, A) => B): B = initial
 
-  def foldRight[B](initial: B)(f: (A, B) => B): B = ???
+  def foldRight[B](initial: B)(f: (A, B) => B): B = initial
 
   def take(n: Int): MyList[A] = MyList()
 
