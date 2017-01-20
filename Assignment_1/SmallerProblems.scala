@@ -87,7 +87,25 @@ object Problem3 {
     // 1. the largest element in args (using string comparison)
     // 2. args with no duplicate elements
     // 3. a run-length-encoded version of args
+      val largestElement: String = list.foldLeft("")((a, b) => if (a > b) a else b)
+      println(largestElement)
 
+      val nonDuplicates: List[String] = list.foldLeft(List[String]())((a, b) => if (!a.contains(b)) b :: a else a)
+      val rightOrderNonDuplicates = nonDuplicates.reverse
+      println(rightOrderNonDuplicates)
+
+      val listOfStrings: List[(String, Int)] = list.foldLeft(List[(String, Int)]())((a,b) =>
+        if (a.isEmpty) {
+          (b, 1) :: a
+          } else if (a.head._1 == b) {
+             (b, a.head._2 + 1) :: a.tail 
+            } else {
+              (b,1) :: a
+            })
+
+      println(listOfStrings.reverse)
+      
+// foldLeft[B](z: B)(op: (B, A) ⇒ B): B
     // NOTES
     //
     // If the initial value given to foldLeft is an empty List you
