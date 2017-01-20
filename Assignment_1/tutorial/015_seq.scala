@@ -753,11 +753,13 @@ assert(Seq(1, 2, 3, 4).foldLeft(0)(_ + _) == 10)
 
 // hint: List[T](), makes an empty list of type T
 
-assert(Seq("moo", "cow", "bull").foldRight(???)(???) == "moocowbull")
-assert(Seq(1, 2, 3).foldLeft(???)(???) == List(3, 2, 1)) // don't use reverse
+assert(Seq("moo", "cow", "bull").foldRight("")(_ + _) == "moocowbull")
+assert(Seq(1, 2, 3).foldLeft(List[Int]())((a,b) => b :: a) == List(3, 2, 1)) // don't use reverse
+
+// assert(myMap(List("moo", "cow", "bull"), (s: String) => s.length) == List(3, 3, 4))
 
 // hint: Strings have a `length` method
-assert(Seq("moo", "cow", "bull").foldRight(???)(???) == List(3, 3, 4))
+assert(Seq("moo", "cow", "bull").foldRight(List[Int]())((list: List[Int], s: String) => list :: s.length) == List(3, 3, 4))
 
 
 // One last operator is worth discussing explicitly on `Seq`.  Say we
